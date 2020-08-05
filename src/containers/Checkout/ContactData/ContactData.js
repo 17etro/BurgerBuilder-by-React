@@ -19,8 +19,6 @@ class ContactData extends Component {
                 },
                 value: ''
             },
-            ingredients : this.props.ingredients,
-            price : this.props.price,
             street: {
                 elementType: 'input',
                 elementConfig: {
@@ -70,34 +68,44 @@ class ContactData extends Component {
     orderHandler = (event) => {
         event.preventDefault();
         this.setState({loading : true});
-        axios.post('/orders.json', order)
-        .then(response => {
-            this.setState({loading : false});
-            this.props.history.push('/');
-        })
-        .catch(error => {
-            this.setState({loading : false});
-        });
+        // axios.post('/orders.json', order)
+        // .then(response => {
+        //     this.setState({loading : false});
+        //     this.props.history.push('/');
+        // })
+        // .catch(error => {
+        //     this.setState({loading : false});
+        // });
     }
 
     render() {
 
-        let form;
-        if (this.state.loading) {
-            form = <Spinner />
-        } else {
-            form = (
+        const formElementsArray = [];
+        for (let key in this.state.orderForm) {
+            formElementsArray.push({
+                id: key,
+                config: this.state.orderForm[key] 
+            })
+        }
+
+        let form = (
                 <form>
-                    <Input inputtype='input' type='text' name='name' placeholder='Your name'/>
-                    <Input inputtype='input' type='email' name='email' placeholder='Your email'/>
-                    <Input inputtype='input' type='text' name='street' placeholder='Street'/>
-                    <Input inputtype='input' type='text' name='postalCode' placeholder='Postal Code'/>
+                    {formElementsArray.map(formElement => (
+                        <Input 
+                        key={formElement.id}
+                        elementType={formElement.config.elementType}
+                        elementConfig={formElement.config.elementConfig}
+                        value={formElement.config.value}/>
+                    ))}
                     <Button 
                     btnType='Success'
                     clicked={this.orderHandler}>ORDER</Button>
                 </form>
-            );
-        }
+        );
+        if (this.state.loading) {
+            form = <Spinner />
+        } 
+        
         return (
             <div className={classes.ContactData}>
                 <h4>Enter your contact data!</h4>
