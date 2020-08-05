@@ -10,11 +10,59 @@ import classes from './ContactData.module.css';
 class ContactData extends Component {
 
     state = {
-        name: '',
-        email: '',
-        address : {
-            street: '',
-            postalCode: ''
+        orderForm: {
+            name : {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Your name'
+                },
+                value: ''
+            },
+            ingredients : this.props.ingredients,
+            price : this.props.price,
+            street: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Street'
+                },
+                value: ''
+            },
+            zipCode: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'ZIP Code'
+                },
+                value: ''
+            },
+            city: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'City'
+                },
+                value: ''
+            },
+            email: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'email',
+                    placeholder: 'Your email'
+                },
+                value: ''
+            },
+            deliveryMethod: {
+                elementType: 'select',
+                elementConfig: {
+                    options: [
+                        {value: 'fastest',displayValue: 'Fastest'},
+                        {value: 'cheapest',displayValue: 'Cheapest'}
+                    ]
+                },
+                value: ''
+            }
         },
         loading : false
     }
@@ -22,20 +70,6 @@ class ContactData extends Component {
     orderHandler = (event) => {
         event.preventDefault();
         this.setState({loading : true});
-        const order = {
-            ingredients : this.props.ingredients,
-            price : this.props.price,
-            customer : {
-                name : 'Petro Petruk',
-                adress : {
-                    street : 'Teststreet',
-                    zipCode : '12345',
-                    city : 'Kyiv'
-                },
-                email : 'petrpetryk2016@gmail.com'
-            },
-            deliveryMethod : 'fastest'
-        };
         axios.post('/orders.json', order)
         .then(response => {
             this.setState({loading : false});
