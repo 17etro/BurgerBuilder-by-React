@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from './store/actions/index';
@@ -38,4 +38,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default withRouter(connect(null, mapDispatchToProps)(App));
