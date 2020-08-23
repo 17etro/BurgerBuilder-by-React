@@ -55,7 +55,6 @@ var purchaseBurger = function purchaseBurger(orderData, token) {
     dispatch(purchaseBurgerStart());
 
     _axiosOrders["default"].post("/orders.json?auth=" + token, orderData).then(function (response) {
-      console.log(response.data);
       dispatch(purchaseBurgerSuccess(response.data.name, orderData));
     })["catch"](function (error) {
       dispatch(purchaseBurgerFail(error));

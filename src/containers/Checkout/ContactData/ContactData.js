@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import axios from "../../../axios-orders";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 import * as actions from '../../../store/actions/index';
+import { checkValidaty } from '../../../shared/utility';
 
 import Button from "../../../components/UI/Button/Button";
 import Spinner from "../../../components/UI/Spinner/Spinner";
@@ -111,22 +112,6 @@ class ContactData extends Component {
     this.props.onOrderBurger(order, this.props.token);
   };
 
-  checkValidaty = (value, rules) => {
-    let isValid = true;
-
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-
-    return isValid;
-  };
-
   inputChangedHangler = (event, inputID) => {
     const updatedOrderForm = {
       ...this.state.orderForm,
@@ -135,7 +120,7 @@ class ContactData extends Component {
       ...updatedOrderForm[inputID],
     };
     updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = this.checkValidaty(
+    updatedFormElement.valid = checkValidaty(
       updatedFormElement.value,
       updatedFormElement.validation
     );
